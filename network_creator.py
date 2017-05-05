@@ -54,7 +54,7 @@ def save_to_csv(random_walks, csv_path):
 
 
 def main():
-    number_of_walks = 20
+    number_of_walks = 5
     length_of_walks = 5
     window_size = 2
     csv_path = "C:\Users\Dvir\Desktop\NNftw\words2.csv"
