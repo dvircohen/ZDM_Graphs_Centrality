@@ -3,7 +3,7 @@ import random
 import numpy as np
 import pandas as pd
 import networkx as nx
-
+import matplotlib.pyplot as plt
 from centality_compare import centrality_compare
 from wevi_parser import wevi_parser
 
@@ -11,12 +11,14 @@ from wevi_parser import wevi_parser
 def graph_maker():
     list1 = [1 if num < 5 else 5 for num in range(10)]
     graph = nx.configuration_model(list1, seed=123)
+    graph = nx.gnp_random_graph(8, 0.2,seed=123)
     return graph
 
 
 def get_neighbor(row_index, adj_mat):
     # Select an adjacent node to node 'row_index'
     adjacent_nodes = np.argwhere(adj_mat[row_index] != 0).flatten()
+    random.seed(123)
     return random.choice(adjacent_nodes)
 
 
@@ -52,7 +54,7 @@ def save_to_csv(random_walks, csv_path):
 
 
 def main():
-    number_of_walks = 5
+    number_of_walks = 20
     length_of_walks = 5
     window_size = 2
     csv_path = "C:\Users\Dvir\Desktop\NNftw\words2.csv"
@@ -62,7 +64,7 @@ def main():
 
     # draw the graph if you want to
     nx.draw_networkx(graph)
-    # plt.show()
+    plt.show()
 
     # get the adjacency matrix
     adj_matrix = nx.adjacency_matrix(graph)

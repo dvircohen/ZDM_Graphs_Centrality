@@ -5,6 +5,11 @@ from scipy.stats.stats import pearsonr, spearmanr
 from tabulate import tabulate
 
 
+def sort_by_lexi(list_of_numbers):
+    dict1 = {key:val for key,val in enumerate(list_of_numbers)}
+    sorted_list = sorted(dict1, key=lambda key: str(dict1[key]))
+    return sorted_list
+
 def graph_maker():
     list1 = [1 if num < 5 else 5 for num in range(10)]
     graph = nx.configuration_model(list1, seed=123)
@@ -31,13 +36,18 @@ def centrality_compare(graph=None, nodes_string=None):
     graph = nx.Graph(graph)
 
     # Add all the measurements to the measurements dict
-    measurements_dict["wevi"] = node_dict.values()
+    measurements = sort_by_lexi([0,1,2,3,4,5,6,7,8,9,10,11,12])
     measurements_dict["closeness centrality"] = nx.closeness_centrality(graph).values()
     measurements_dict["eigenvector centrality"] = nx.eigenvector_centrality(graph).values()
     measurements_dict["degree centrality"] = nx.degree_centrality(graph).values()
     measurements_dict["betweenness centrality"] = nx.betweenness_centrality(graph).values()
     measurements_dict["katz centrality"] = nx.katz_centrality(graph).values()
     measurements_dict["load centrality"] = nx.load_centrality(graph).values()
+
+    # change the lists order to lexicographic
+    measurements_dict = {key:sort_by_lexi(value) for key,value in measurements_dict.items() }
+
+    measurements_dict["wevi"] = node_dict.values()
 
     # Loop over all the cenrality measurements
     for centrality_name, centrality_value in measurements_dict.items():
