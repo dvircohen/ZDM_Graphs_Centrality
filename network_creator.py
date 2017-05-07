@@ -1,5 +1,4 @@
 import random
-
 import numpy as np
 import pandas as pd
 import networkx as nx
@@ -11,14 +10,13 @@ from wevi_parser import wevi_parser
 def graph_maker():
     list1 = [1 if num < 5 else 5 for num in range(10)]
     graph = nx.configuration_model(list1, seed=123)
-    graph = nx.gnp_random_graph(8, 0.2,seed=123)
+    # graph = nx.gnp_random_graph(8, 0.2,seed=123)
     return graph
 
 
 def get_neighbor(row_index, adj_mat):
     # Select an adjacent node to node 'row_index'
     adjacent_nodes = np.argwhere(adj_mat[row_index] != 0).flatten()
-    random.seed(123)
     return random.choice(adjacent_nodes)
 
 
@@ -80,7 +78,7 @@ def main():
 
     # make the random walks
     random_walks = make_random_walks(adj_matrix, number_of_walks, length_of_walks)
-    save_to_csv(random_walks, csv_path)
+    # save_to_csv(random_walks, csv_path)
 
     print "The input to wevi:"
     print wevi_parser(random_walks, window_size)

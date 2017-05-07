@@ -60,7 +60,8 @@ function load_config() {
 
 function show_numbers() {
     var arr1 = nn_svg.selectAll("g.neuron > circle")[0].map(x => x.__data__.value);
-    window.alert(arr1.slice(10,20));
+
+    window.alert(arr1.slice((arr1.length - config_obj.hidden_size) /2,(arr1.length - config_obj.hidden_size)));
 
 }
 
