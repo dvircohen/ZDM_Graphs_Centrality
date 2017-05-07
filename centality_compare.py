@@ -1,7 +1,8 @@
 from collections import OrderedDict
 
 import networkx as nx
-from scipy.stats.stats import pearsonr, spearmanr
+from scipy.stats import linregress
+from scipy.stats.stats import pearsonr, spearmanr, pointbiserialr
 from tabulate import tabulate
 from sklearn.preprocessing import normalize
 import warnings
@@ -42,8 +43,6 @@ def centrality_compare(graph=None, nodes_string=None):
         graph = graph_maker()
     graph = nx.Graph(graph)
 
-    sort_by_lexi([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14])
-
     # Add all the measurements to the measurements dict
     measurements_dict["closeness centrality"] = nx.closeness_centrality(graph).values()
     measurements_dict["eigenvector centrality"] = nx.eigenvector_centrality(graph).values()
@@ -62,17 +61,17 @@ def centrality_compare(graph=None, nodes_string=None):
         # Calculate correlations
         pearson = pearsonr(centrality_value, nodes_list)
         spearman = spearmanr(centrality_value, nodes_list)
+        linregres = linregress(centrality_value, nodes_list)
 
         # add it the the compare dict
-        compare_dict[centrality_name] = [pearson[0], spearman[0], pearson[1]]
+        compare_dict[centrality_name] = [pearson[0], spearman[0], linregres[2]**2, pearson[1], spearman[1], linregres[4]]
 
     # Print the results nicely
-    print tabulate([[x, y[0], y[1], y[2]] for x, y in compare_dict.items()],
-                   headers=['Name', 'Pearson', 'Spearman', 'p-value'])
+    print tabulate([[x] + y for x, y in compare_dict.items()], headers=['Name', 'Pearson', 'Spearman', 'linregress', 'Pearson p-value', 'Spearman p-value', 'linregress p-value'])
 
     print "\n\n"
     print tabulate([[x] + y for x, y in measurements_dict.items()],
-                   headers=[str(x) for x in sorted(range(len(nodes_list)),key=lambda k: str(k))])
+                   headers=["Node " + str(x) for x in sorted(range(len(nodes_list)),key=lambda k: str(k))])
 
 
 if __name__ == "__main__":
