@@ -13,7 +13,7 @@ $(document).ready(function() {
     $("#btn-next2000").click(function(){batchTrain(2000)});
     $("#btn-learning-rate").click(function(){load_config()});
     $("#btn-show-numbers").click(function(){show_numbers()});
-    $("#btn-show-graph").click(function(){show_graph()});
+    $("#btn-click-all").click(function(){clickAllInputNeurons()});
 });
 
 function init() {
@@ -408,6 +408,13 @@ function update_neural_net_svg() {
     .on("click", mouseClickInputNeuron);
 }
 
+function clickAllInputNeurons(){
+  allCircleElements = d3.selectAll(".input-neuron")
+  for (index = 0; index < inputNeurons.length; ++index) {
+  mouseHoverInputNeuron(inputNeurons[index])
+  mouseClickInputNeuron(inputNeurons[index])
+  }
+}
 function getInputEdgeStrokeWidth(edge) {
   return isNeuronExcited(inputNeurons[edge.source]) ? 5 : 1;
 }
@@ -811,7 +818,10 @@ function batchTrain(numIter) {
     do_apply_gradients();
     update_heatmap_svg();
     update_scatterplot_svg();
-    if (numIter == 1) return;
+    if (numIter == 1) {
+        alert('Done');
+        return;
+    }
     else setTimeout(function() {
       batchTrain(numIter - 1)
     }, numIter % 10 == 0 ? 50 : 0);  // when to stop for scatter plots
