@@ -54,6 +54,10 @@ def save_to_csv(random_walks, csv_path):
     random_walks.to_csv(csv_path, index=False)
 
 
+def calculate_num_of_iteration(number_of_walks, length_of_walks, num_of_vectors):
+    return number_of_walks * (length_of_walks + 1) * num_of_vectors
+
+
 def main():
     number_of_walks = 5
     length_of_walks = 5
@@ -83,13 +87,20 @@ def main():
     # make the random walks
     random_walks = make_random_walks(adj_matrix, number_of_walks, length_of_walks)
 
-    print "The input to wevi:"
-    after_parse =  wevi_parser(random_walks, window_size)
-    print after_parse
-    centrality_vector = wevi_automate(after_parse, num_of_iteration)
-    print "Please paste here the results from wevi"
+    num_of_iteration = calculate_num_of_iteration(number_of_walks, length_of_walks, len(df.index))
 
-    centrality_compare(graph, centrality_vector)
+    after_parse =  wevi_parser(random_walks, window_size)
+    # centrality_vector = wevi_automate(after_parse, num_of_iteration)
+    # centrality_compare(graph, centrality_vector)
+
+    print "The input to wevi:"
+    print wevi_parser(random_walks, window_size)
+    print "Please paste here the results from wevi"
+    input1 = raw_input()
+
+    centrality_compare(graph, input1)
+
+
 
 if __name__ == "__main__":
     main()
