@@ -93,6 +93,7 @@ def main():
     # centrality_vector = wevi_automate(after_parse, num_of_iteration)
     # centrality_compare(graph, centrality_vector)
 
+
     print "The input to wevi:"
     print wevi_parser(random_walks, window_size)
     print "Please paste here the results from wevi"
