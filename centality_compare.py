@@ -49,7 +49,7 @@ def centrality_compare(graph=None, nodes_string=None):
     measurements_dict["eigenvector centrality"] = nx.eigenvector_centrality(graph).values()
     measurements_dict["degree centrality"] = nx.degree_centrality(graph).values()
     measurements_dict["betweenness centrality"] = nx.betweenness_centrality(graph).values()
-    measurements_dict["katz centrality"] = nx.katz_centrality(graph).values()
+    # measurements_dict["katz centrality"] = nx.katz_centrality(graph).values()
     measurements_dict["load centrality"] = nx.load_centrality(graph).values()
 
     # change the lists order to lexicographic

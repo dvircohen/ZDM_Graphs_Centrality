@@ -12,7 +12,7 @@ def graph_maker():
     # graph = nx.configuration_model(list1, seed=123)
     # graph = nx.gnp_random_graph(10, 0.24,seed=15) # awesome graph
     # graph = nx.gnp_random_graph(11, 0.24,seed=1341) # awesome graph2
-    graph = nx.gnp_random_graph(50, 0.24,seed=1341) # awesome graph2
+    graph = nx.gnp_random_graph(50, 0.24,seed=1341)
     return graph
 
 
