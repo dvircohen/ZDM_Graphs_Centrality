@@ -76,4 +76,5 @@ def centrality_compare(graph=None, nodes_string=None):
 
 if __name__ == "__main__":
     # default data
-    centrality_compare()
+    # centrality_compare()
+    pass
