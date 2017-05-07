@@ -12,13 +12,15 @@ def graph_maker():
     # graph = nx.configuration_model(list1, seed=123)
     # graph = nx.gnp_random_graph(10, 0.24,seed=15) # awesome graph
     # graph = nx.gnp_random_graph(11, 0.24,seed=1341) # awesome graph2
-    graph = nx.gnp_random_graph(50, 0.24,seed=1341)
+    graph = nx.gnp_random_graph(50, 0.05, seed=1341)
     return graph
 
 
 def get_neighbor(row_index, adj_mat):
     # Select an adjacent node to node 'row_index'
     adjacent_nodes = np.argwhere(adj_mat[row_index] != 0).flatten()
+    if len(adjacent_nodes) == 0:
+        return -1
     return random.choice(adjacent_nodes)
 
 
@@ -39,7 +41,10 @@ def make_random_walks(adj_mat, num_of_walks, len_of_walks):
             # travel to other nodes and append them to the random walk
             for k in range(len_of_walks):
                 current_node = get_neighbor(current_node, adj_mat)
-                current_walk.append("Node" + str(current_node))
+                if current_node != -1:
+                    current_walk.append("Node" + str(current_node))
+                else:
+                    break
 
             # append to the result matrix
             current_sentence = ' '.join(current_walk)
