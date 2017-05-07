@@ -3,12 +3,19 @@ from collections import OrderedDict
 import networkx as nx
 from scipy.stats.stats import pearsonr, spearmanr
 from tabulate import tabulate
-
+from sklearn.preprocessing import normalize
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 def sort_by_lexi(list_of_numbers):
-    dict1 = {key:val for key,val in enumerate(list_of_numbers)}
-    sorted_list = sorted(dict1, key=lambda key: str(dict1[key]))
-    return sorted_list
+    dict1 = {key: val for key, val in enumerate(list_of_numbers)}
+    # sorted_list1 = [b[0] for b in sorted(enumerate(range(len(list_of_numbers))), key=lambda i: list_of_numbers[1])]
+    # sorted_list = [b[0] for b in sorted(enumerate(list_of_numbers), key=lambda k: str(sorted_list1[k]))]
+    sorted2 = sorted(range(len(list_of_numbers)),key=lambda k: str(k))
+    list1 = []
+    for i in range(len(list_of_numbers)):
+        list1.append(list_of_numbers[sorted2[i]])
+    return list1
 
 def graph_maker():
     list1 = [1 if num < 5 else 5 for num in range(10)]
@@ -35,17 +42,18 @@ def centrality_compare(graph=None, nodes_string=None):
         graph = graph_maker()
     graph = nx.Graph(graph)
 
+    sort_by_lexi([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14])
+
     # Add all the measurements to the measurements dict
-    measurements = sort_by_lexi([0,1,2,3,4,5,6,7,8,9,10,11,12])
     measurements_dict["closeness centrality"] = nx.closeness_centrality(graph).values()
     measurements_dict["eigenvector centrality"] = nx.eigenvector_centrality(graph).values()
     measurements_dict["degree centrality"] = nx.degree_centrality(graph).values()
     measurements_dict["betweenness centrality"] = nx.betweenness_centrality(graph).values()
-    measurements_dict["katz centrality"] = nx.katz_centrality(graph).values()
+    # measurements_dict["katz centrality"] = nx.katz_centrality(graph).values()
     measurements_dict["load centrality"] = nx.load_centrality(graph).values()
 
     # change the lists order to lexicographic
-    measurements_dict = {key:sort_by_lexi(value) for key,value in measurements_dict.items() }
+    measurements_dict = {key:[float(i) / sum(sort_by_lexi(value)) for i in sort_by_lexi(value)] for key,value in measurements_dict.items() }
 
     measurements_dict["wevi"] = node_dict.values()
 
@@ -61,6 +69,10 @@ def centrality_compare(graph=None, nodes_string=None):
     # Print the results nicely
     print tabulate([[x, y[0], y[1], y[2]] for x, y in compare_dict.items()],
                    headers=['Name', 'Pearson', 'Spearman', 'p-value'])
+
+    print "\n\n"
+    print tabulate([[x] + y for x, y in measurements_dict.items()],
+                   headers=[str(x) for x in sorted(range(len(nodes_list)),key=lambda k: str(k))])
 
 
 if __name__ == "__main__":

@@ -8,9 +8,11 @@ from wevi_parser import wevi_parser
 
 
 def graph_maker():
-    list1 = [1 if num < 5 else 5 for num in range(10)]
-    graph = nx.configuration_model(list1, seed=123)
-    # graph = nx.gnp_random_graph(8, 0.2,seed=123)
+    list1 = [1 if num < 5 else 5 for num in range(15)]
+    # graph = nx.configuration_model(list1, seed=123)
+    # graph = nx.gnp_random_graph(10, 0.24,seed=15) # awesome graph
+    # graph = nx.gnp_random_graph(11, 0.24,seed=1341) # awesome graph2
+    graph = nx.gnp_random_graph(50, 0.24,seed=1341)
     return graph
 
 
