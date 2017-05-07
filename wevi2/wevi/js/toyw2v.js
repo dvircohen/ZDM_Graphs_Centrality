@@ -9,11 +9,12 @@ $(document).ready(function() {
   $("#btn-pca").click(updatePCAButtonClick);
   $("#btn-next20").click(function(){batchTrain(20)});
   $("#btn-next100").click(function(){batchTrain(100)});
-    $("#btn-next500").click(function(){batchTrain(500)});
-    $("#btn-next2000").click(function(){batchTrain(2000)});
-    $("#btn-learning-rate").click(function(){load_config()});
-    $("#btn-show-numbers").click(function(){show_numbers()});
-    $("#btn-click-all").click(function(){clickAllInputNeurons()});
+  $("#btn-next500").click(function(){batchTrain(500)});
+  $("#btn-next2000").click(function(){batchTrain(2000)});
+  $("#btn-nextcustome").click(function(){batchTrain($("#num-iterations").val())});
+  $("#btn-learning-rate").click(function(){load_config()});
+  $("#btn-show-numbers").click(function(){show_numbers()});
+  $("#btn-click-all").click(function(){clickAllInputNeurons()});
 });
 
 function init() {
