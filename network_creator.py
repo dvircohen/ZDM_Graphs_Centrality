@@ -12,7 +12,8 @@ def graph_maker():
     # graph = nx.configuration_model(list1, seed=123)
     # graph = nx.gnp_random_graph(10, 0.24,seed=15) # awesome graph
     # graph = nx.gnp_random_graph(11, 0.24,seed=1341) # awesome graph2
-    graph = nx.gnp_random_graph(50, 0.05, seed=1341)
+    # graph = nx.gnp_random_graph(10, 0.24,seed=1341) # spider graph2
+    graph = nx.gnp_random_graph(20, 0.12,seed=1234) # spider graph2
     return graph
 
 
@@ -62,6 +63,7 @@ def main():
     number_of_walks = 5
     length_of_walks = 5
     window_size = 2
+    num_of_iteration = 2000
     csv_path = "C:\Users\Dvir\Desktop\NNftw\words2.csv"
 
     # make graph
@@ -85,14 +87,14 @@ def main():
 
     # make the random walks
     random_walks = make_random_walks(adj_matrix, number_of_walks, length_of_walks)
-    # save_to_csv(random_walks, csv_path)
 
     print "The input to wevi:"
-    print wevi_parser(random_walks, window_size)
+    after_parse =  wevi_parser(random_walks, window_size)
+    print after_parse
+    centrality_vector = wevi_automate(after_parse, num_of_iteration)
     print "Please paste here the results from wevi"
-    input1 = raw_input()
 
-    centrality_compare(graph, input1)
+    centrality_compare(graph, centrality_vector)
 
 if __name__ == "__main__":
     main()
