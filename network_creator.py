@@ -3,7 +3,9 @@ import numpy as np
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
+
 from centality_compare import centrality_compare
+from automate_test1 import wevi_automate
 from wevi_parser import wevi_parser
 
 
@@ -96,16 +98,17 @@ def main():
     num_of_iteration = calculate_num_of_iteration(number_of_walks, length_of_walks, len(df.index))
 
     after_parse =  wevi_parser(random_walks, window_size)
-    # centrality_vector = wevi_automate(after_parse, num_of_iteration)
-    # centrality_compare(graph, centrality_vector)
+    print "num of iter is {}".format(num_of_iteration)
+    centrality_vector = wevi_automate(after_parse, num_of_iteration)
+    centrality_compare(graph, centrality_vector)
 
+    #
+    # print "The input to wevi:"
+    # print wevi_parser(random_walks, window_size)
+    # print "Please paste here the results from wevi"
+    # input1 = raw_input()
 
-    print "The input to wevi:"
-    print wevi_parser(random_walks, window_size)
-    print "Please paste here the results from wevi"
-    input1 = raw_input()
-
-    centrality_compare(graph, input1)
+    # centrality_compare(graph, input1)
 
 
 
