@@ -1,5 +1,5 @@
 from collections import OrderedDict
-
+import pandas as pd
 import networkx as nx
 from scipy.stats import linregress
 from scipy.stats.stats import pearsonr, spearmanr, pointbiserialr
@@ -69,6 +69,8 @@ def centrality_compare(graph=None, nodes_string=None):
     # Print the results nicely
     print tabulate([[x] + y for x, y in compare_dict.items()], headers=['Name', 'Pearson', 'Spearman', 'linregress', 'Pearson p-value', 'Spearman p-value', 'linregress p-value'])
 
+    df = pd.DataFrame(measurements_dict)
+    df.to_csv("C:\Users\Dvir\Desktop\NNftw\measures.csv")
     print "\n\n"
     print tabulate([[x] + y for x, y in measurements_dict.items()],
                    headers=["Node " + str(x) for x in sorted(range(len(nodes_list)),key=lambda k: str(k))])
