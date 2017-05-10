@@ -24,7 +24,7 @@ def graph_maker():
     return graph
 
 
-def centrality_compare(graph=None, nodes_string=None):
+def centrality_compare(graph=None, nodes_string=None, value_counts = None):
     measurements_dict = OrderedDict()
     compare_dict = OrderedDict()
 
@@ -38,18 +38,21 @@ def centrality_compare(graph=None, nodes_string=None):
     # Put the wevi data in a dictionary
     node_dict = {num: val for num, val in enumerate(nodes_list)}
 
+
+
     # Make the graph and make it simple graph instead of multi graph
     if graph is None:
         graph = graph_maker()
+    if value_counts is None:
+        value_counts = [14, 30, 30, 11, 15, 32, 39, 37, 45, 47]
     graph = nx.Graph(graph)
-
-    # Add all the measurements to the measurements dict
     measurements_dict["closeness centrality"] = nx.closeness_centrality(graph).values()
     measurements_dict["eigenvector centrality"] = nx.eigenvector_centrality(graph).values()
     measurements_dict["degree centrality"] = nx.degree_centrality(graph).values()
     measurements_dict["betweenness centrality"] = nx.betweenness_centrality(graph).values()
     # measurements_dict["katz centrality"] = nx.katz_centrality(graph).values()
     measurements_dict["load centrality"] = nx.load_centrality(graph).values()
+    measurements_dict["nodes count"] = value_counts
 
     # change the lists order to lexicographic
     measurements_dict = {key:[float(i) / sum(sort_by_lexi(value)) for i in sort_by_lexi(value)] for key,value in measurements_dict.items() }
@@ -78,5 +81,5 @@ def centrality_compare(graph=None, nodes_string=None):
 
 if __name__ == "__main__":
     # default data
-    # centrality_compare()
+    centrality_compare()
     pass

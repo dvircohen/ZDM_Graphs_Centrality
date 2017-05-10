@@ -1,4 +1,6 @@
 import random
+from collections import Counter
+
 import numpy as np
 import pandas as pd
 import networkx as nx
@@ -54,7 +56,16 @@ def make_random_walks(adj_mat, num_of_walks, len_of_walks):
             current_sentence = ' '.join(current_walk)
             random_walks_sentences.append(current_sentence)
     result = pd.DataFrame({"String": random_walks_sentences})
-    return result
+
+    # Value counts
+    listses = [x.split(" ") for x in random_walks_sentences]
+    count1 = pd.DataFrame([x.split(" ") for x in random_walks_sentences])
+    biglist = [item for sublist in listses for item in sublist]
+    count2 = dict(Counter(biglist))
+
+    final_list = [count2["Node"+str(i)] for i in range(len(count2))]
+
+    return result, final_list
 
 
 
@@ -78,7 +89,7 @@ def main():
 
     # draw the graph if you want to
     nx.draw_networkx(graph)
-    plt.show()
+    # plt.show()
 
     # get the adjacency matrix
     adj_matrix = nx.adjacency_matrix(graph)
@@ -93,22 +104,23 @@ def main():
     adj_matrix = df
 
     # make the random walks
-    random_walks = make_random_walks(adj_matrix, number_of_walks, length_of_walks)
+    random_walks, value_counts = make_random_walks(adj_matrix, number_of_walks, length_of_walks)
 
+    # Calculate the number of iteration needed
     num_of_iteration = calculate_num_of_iteration(number_of_walks, length_of_walks, len(df.index))
 
-    after_parse =  wevi_parser(random_walks, window_size)
+    # after_parse =  wevi_parser(random_walks, window_size)
     print "num of iter is {}".format(num_of_iteration)
-    centrality_vector = wevi_automate(after_parse, num_of_iteration)
-    centrality_compare(graph, centrality_vector)
+    # centrality_vector = wevi_automate(after_parse, num_of_iteration)
+    # centrality_compare(graph, centrality_vector)
 
-    #
-    # print "The input to wevi:"
-    # print wevi_parser(random_walks, window_size)
-    # print "Please paste here the results from wevi"
-    # input1 = raw_input()
 
-    # centrality_compare(graph, input1)
+    print "The input to wevi:"
+    print wevi_parser(random_walks, window_size)
+    print "Please paste here the results from wevi"
+    input1 = raw_input()
+
+    centrality_compare(graph, input1, value_counts)
 
 
 
