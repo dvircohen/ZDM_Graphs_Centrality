@@ -59,7 +59,6 @@ def make_random_walks(adj_mat, num_of_walks, len_of_walks):
 
     # Value counts
     listses = [x.split(" ") for x in random_walks_sentences]
-    count1 = pd.DataFrame([x.split(" ") for x in random_walks_sentences])
     biglist = [item for sublist in listses for item in sublist]
     count2 = dict(Counter(biglist))
 
