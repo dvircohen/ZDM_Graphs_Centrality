@@ -23,10 +23,10 @@ def testing_gensim(sentences):
     list = sorted(model.wv.index2word)
 
     # get the score of each node by compering it to all the other nodes
-    simple_list = [model.n_similarity(list, [x]) for x in list]
+    score_list = [model.n_similarity(list, [x]) for x in list]
 
-    # print the score of each node
+    # print the score of each node for debugging
     answer_list = [(x,model.n_similarity(list, [x])) for x in list]
     print(*answer_list, sep="\n")
 
-    return simple_list
+    return score_list
