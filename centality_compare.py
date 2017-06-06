@@ -56,8 +56,7 @@ def centrality_compare(graph=None, nodes_string=None, value_counts = None):
 
     # change the lists order to lexicographic
     measurements_dict = {key:[float(i) / sum(sort_by_lexi(value)) for i in sort_by_lexi(value)] for key,value in measurements_dict.items() }
-
-    measurements_dict["wevi"] = node_dict.values()
+    measurements_dict["wevi"] = [float(i) / sum(node_dict.values()) for i in node_dict.values()]
 
     # Loop over all the cenrality measurements
     for centrality_name, centrality_value in measurements_dict.items():
@@ -73,7 +72,7 @@ def centrality_compare(graph=None, nodes_string=None, value_counts = None):
     print tabulate([[x] + y for x, y in compare_dict.items()], headers=['Name', 'Pearson', 'Spearman', 'linregress', 'Pearson p-value', 'Spearman p-value', 'linregress p-value'])
 
     df = pd.DataFrame(measurements_dict)
-    df.to_csv("C:\Users\Dvir\Desktop\NNftw\measures.csv")
+    # df.to_csv("C:\Users\Dvir\Desktop\NNftw\measures.csv")
     print "\n\n"
     print tabulate([[x] + y for x, y in measurements_dict.items()],
                    headers=["Node " + str(x) for x in sorted(range(len(nodes_list)),key=lambda k: str(k))])

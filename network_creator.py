@@ -7,18 +7,18 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 from centality_compare import centrality_compare
-from automate_test1 import wevi_automate
+from gensim_testing import testing_gensim
 from wevi_parser import wevi_parser
 
 
 def graph_maker():
     list1 = [1 if num < 5 else 5 for num in range(10)]
-    graph = nx.configuration_model(list1, seed=123)
+    # graph = nx.configuration_model(list1, seed=123)
     # graph = nx.gnp_random_graph(10, 0.24,seed=15) # awesome graph
     # graph = nx.gnp_random_graph(11, 0.24,seed=1341) # awesome graph2
     # graph = nx.gnp_random_graph(10, 0.24,seed=1341) # spider graph2
     # graph = nx.gnp_random_graph(20, 0.12,seed=1234)
-    # graph = nx.gnp_random_graph(50, 0.2,seed=1234)
+    graph = nx.gnp_random_graph(50, 0.2,seed=1234)
     return graph
 
 
@@ -64,7 +64,7 @@ def make_random_walks(adj_mat, num_of_walks, len_of_walks):
 
     final_list = [count2["Node"+str(i)] for i in range(len(count2))]
 
-    return result, final_list
+    return result, final_list, listses
 
 
 
@@ -77,6 +77,7 @@ def calculate_num_of_iteration(number_of_walks, length_of_walks, num_of_vectors)
 
 
 def main():
+    use_new_version = 1
     number_of_walks = 5
     length_of_walks = 5
     window_size = 2
@@ -103,7 +104,7 @@ def main():
     adj_matrix = df
 
     # make the random walks
-    random_walks, value_counts = make_random_walks(adj_matrix, number_of_walks, length_of_walks)
+    random_walks, value_counts, separated_string = make_random_walks(adj_matrix, number_of_walks, length_of_walks)
 
     # Calculate the number of iteration needed
     num_of_iteration = calculate_num_of_iteration(number_of_walks, length_of_walks, len(df.index))
@@ -113,11 +114,13 @@ def main():
     # centrality_vector = wevi_automate(after_parse, num_of_iteration)
     # centrality_compare(graph, centrality_vector)
 
-
-    print "The input to wevi:"
-    print wevi_parser(random_walks, window_size)
-    print "Please paste here the results from wevi"
-    input1 = raw_input()
+    if use_new_version:
+        input1 = str(testing_gensim(separated_string))[1:-1]
+    else:
+        print "The input to wevi:"
+        print wevi_parser(random_walks, window_size)
+        print "Please paste here the results from wevi"
+        input1 = raw_input()
 
     centrality_compare(graph, input1, value_counts)
 
