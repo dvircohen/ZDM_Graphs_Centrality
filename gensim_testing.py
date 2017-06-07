@@ -12,7 +12,7 @@ def testing_gensim(sentences):
                                    min_alpha=0.0001,
                                    sg=1,
                                    iter=10000,
-                                   window=5,
+                                   window=1,
                                    cbow_mean=0,
                                    seed=1,
                                    min_count=0,
@@ -20,13 +20,13 @@ def testing_gensim(sentences):
                                    hs=1)
 
     # sort by name so the order will be right
-    list = sorted(model.wv.index2word)
+    sorted_list = sorted(model.wv.index2word)
 
     # get the score of each node by compering it to all the other nodes
-    score_list = [model.n_similarity(list, [x]) for x in list]
+    score_list = [model.n_similarity(sorted_list, [x]) for x in sorted_list]
 
     # print the score of each node for debugging
-    answer_list = [(x,model.n_similarity(list, [x])) for x in list]
+    answer_list = [(x,model.n_similarity(sorted_list, [x])) for x in sorted_list]
     print(*answer_list, sep="\n")
 
     return score_list
