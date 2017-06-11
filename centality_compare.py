@@ -47,7 +47,7 @@ def centrality_compare(graph=None, nodes_string=None, value_counts = None):
         value_counts = [14, 30, 30, 11, 15, 32, 39, 37, 45, 47]
     graph = nx.Graph(graph)
     measurements_dict["closeness centrality"] = nx.closeness_centrality(graph).values()
-    measurements_dict["eigenvector centrality"] = nx.eigenvector_centrality(graph).values()
+    # measurements_dict["eigenvector centrality"] = nx.eigenvector_centrality(graph).values()
     measurements_dict["degree centrality"] = nx.degree_centrality(graph).values()
     measurements_dict["betweenness centrality"] = nx.betweenness_centrality(graph).values()
     # measurements_dict["katz centrality"] = nx.katz_centrality(graph).values()
@@ -69,14 +69,14 @@ def centrality_compare(graph=None, nodes_string=None, value_counts = None):
         compare_dict[centrality_name] = [pearson[0], spearman[0], linregres[2]**2, pearson[1], spearman[1], linregres[4]]
 
     # Print the results nicely
-    print tabulate([[x] + y for x, y in compare_dict.items()], headers=['Name', 'Pearson', 'Spearman', 'linregress', 'Pearson p-value', 'Spearman p-value', 'linregress p-value'])
+    # print tabulate([[x] + y for x, y in compare_dict.items()], headers=['Name', 'Pearson', 'Spearman', 'linregress', 'Pearson p-value', 'Spearman p-value', 'linregress p-value'])
 
     df = pd.DataFrame(measurements_dict)
     # df.to_csv("C:\Users\Dvir\Desktop\NNftw\measures.csv")
     print "\n\n"
-    print tabulate([[x] + y for x, y in measurements_dict.items()],
-                   headers=["Node " + str(x) for x in sorted(range(len(nodes_list)),key=lambda k: str(k))])
-
+    # print tabulate([[x] + y for x, y in measurements_dict.items()],
+    #                headers=["Node " + str(x) for x in sorted(range(len(nodes_list)),key=lambda k: str(k))])
+    return compare_dict
 
 if __name__ == "__main__":
     # default data

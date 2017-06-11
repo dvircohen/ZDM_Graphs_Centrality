@@ -7,7 +7,7 @@ import gensim
 def testing_gensim(sentences):
 
     # create the model
-    model = gensim.models.Word2Vec(sentences, size=10,
+    model = gensim.models.Word2Vec(sentences, size=5,
                                    alpha=0.025,
                                    min_alpha=0.0001,
                                    sg=1,
@@ -27,6 +27,6 @@ def testing_gensim(sentences):
 
     # print the score of each node for debugging
     answer_list = [(x,model.n_similarity(sorted_list, [x])) for x in sorted_list]
-    print(*answer_list, sep="\n")
+    # print(*answer_list, sep="\n")
 
     return score_list

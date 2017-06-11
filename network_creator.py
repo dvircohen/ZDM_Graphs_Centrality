@@ -5,20 +5,32 @@ import numpy as np
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
+from tabulate import tabulate
 
 from centality_compare import centrality_compare
 from gensim_testing import testing_gensim
 from wevi_parser import wevi_parser
 
+use_new_version = 1
+number_of_walks = 5
+length_of_walks = 5
+window_size = 2
+num_of_iteration = 2000
+number_of_graphs = 1
+number_of_nodes = 100
+csv_path = "C:\Users\Dvir\Desktop\NNftw\words2.csv"
+
 
 def graph_maker():
     list1 = [1 if num < 5 else 5 for num in range(10)]
-    graph = nx.configuration_model(list1, seed=123)
+    # graph = nx.configuration_model(list1, seed=123)
     # graph = nx.gnp_random_graph(10, 0.24,seed=15) # awesome graph
     # graph = nx.gnp_random_graph(11, 0.24,seed=1341) # awesome graph2
     # graph = nx.gnp_random_graph(10, 0.24,seed=1341) # spider graph2
     # graph = nx.gnp_random_graph(20, 0.12,seed=1234)
     # graph = nx.gnp_random_graph(50, 0.2,seed=1234)
+    graph = nx.gnp_random_graph(number_of_nodes, 0.24)
+    print "done creating network"
     return graph
 
 
@@ -75,14 +87,7 @@ def save_to_csv(random_walks, csv_path):
 def calculate_num_of_iteration(number_of_walks, length_of_walks, num_of_vectors):
     return number_of_walks * (length_of_walks + 1) * num_of_vectors
 
-
-def main():
-    use_new_version = 1
-    number_of_walks = 5
-    length_of_walks = 5
-    window_size = 2
-    num_of_iteration = 2000
-    csv_path = "C:\Users\Dvir\Desktop\NNftw\words2.csv"
+def make_graph_and_calculate_centrality():
 
     # make graph
     graph = graph_maker()
@@ -105,12 +110,12 @@ def main():
 
     # make the random walks
     random_walks, value_counts, separated_string = make_random_walks(adj_matrix, number_of_walks, length_of_walks)
-
+    print "done with random walks"
     # Calculate the number of iteration needed
     num_of_iteration = calculate_num_of_iteration(number_of_walks, length_of_walks, len(df.index))
 
     # after_parse =  wevi_parser(random_walks, window_size)
-    print "num of iter is {}".format(num_of_iteration)
+    # print "num of iter is {}".format(num_of_iteration)
     # centrality_vector = wevi_automate(after_parse, num_of_iteration)
     # centrality_compare(graph, centrality_vector)
 
@@ -122,8 +127,21 @@ def main():
         print "Please paste here the results from wevi"
         input1 = raw_input()
 
-    centrality_compare(graph, input1, value_counts)
+    compare_dict = centrality_compare(graph, input1, value_counts)
+    return compare_dict
 
+
+def main():
+    sum_of_pearson = Counter()
+    for i in range(number_of_graphs):
+        print "Iteration number - {}".format(i)
+        # run the algorithem
+        compare_dict = make_graph_and_calculate_centrality()
+
+        sum_of_pearson += Counter({key: value[0] for key, value in compare_dict.items()})
+
+    avg_of_measures = {key: value/number_of_graphs for key,value in sum_of_pearson.items()}
+    print tabulate([[x] + [y] for x, y in avg_of_measures.items()], headers=['Name', 'Pearson', 'Spearman', 'linregress', 'Pearson p-value', 'Spearman p-value', 'linregress p-value'])
 
 
 if __name__ == "__main__":
