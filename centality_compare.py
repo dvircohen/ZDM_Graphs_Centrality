@@ -55,8 +55,8 @@ def centrality_compare(graph=None, nodes_string=None, value_counts = None):
     measurements_dict["nodes count"] = value_counts
 
     # change the lists order to lexicographic
-    measurements_dict = {key:[float(i) / sum(sort_by_lexi(value)) for i in sort_by_lexi(value)] for key,value in measurements_dict.items() }
-    measurements_dict["wevi"] = [float(i) / sum(node_dict.values()) for i in node_dict.values()]
+    measurements_dict = {key:[float(i) / sum(value) for i in value] for key,value in measurements_dict.items() }
+    measurements_dict["wevi"] = [i for i in node_dict.values()]
 
     # Loop over all the cenrality measurements
     for centrality_name, centrality_value in measurements_dict.items():
@@ -69,13 +69,31 @@ def centrality_compare(graph=None, nodes_string=None, value_counts = None):
         compare_dict[centrality_name] = [pearson[0], spearman[0], linregres[2]**2, pearson[1], spearman[1], linregres[4]]
 
     # Print the results nicely
-    # print tabulate([[x] + y for x, y in compare_dict.items()], headers=['Name', 'Pearson', 'Spearman', 'linregress', 'Pearson p-value', 'Spearman p-value', 'linregress p-value'])
+    print tabulate([[x] + y for x, y in compare_dict.items()], headers=['Name', 'Pearson', 'Spearman', 'linregress', 'Pearson p-value', 'Spearman p-value', 'linregress p-value'])
+
+
+    sorted2 = sorted(range(len(measurements_dict.values()[0])),key=lambda k: str(k))
+
+
+
+    best_nodes_dict = {}
+    for measure, mes_nodes_list in measurements_dict.items():
+        best_nodes_dict[measure] = ["Node " + str(x[0]) for x in sorted(enumerate(mes_nodes_list), key=lambda x: x[1], reverse=True)]
+    best_nodes_dict["wevi"] = ["Node " + str(sorted2[x[0]]) for x in sorted(enumerate(measurements_dict["wevi"]), key=lambda x: x[1], reverse=True)]
 
     df = pd.DataFrame(measurements_dict)
     # df.to_csv("C:\Users\Dvir\Desktop\NNftw\measures.csv")
+
     print "\n\n"
-    # print tabulate([[x] + y for x, y in measurements_dict.items()],
-    #                headers=["Node " + str(x) for x in sorted(range(len(nodes_list)),key=lambda k: str(k))])
+    print tabulate([[x] + y for x, y in measurements_dict.items()],
+                   headers=["Node " + str(x) for x in sorted(range(len(nodes_list)),key=lambda k: str(k))])
+
+    print "\n\n"
+    print tabulate([[x] + y[:5] for x, y in best_nodes_dict.items()],
+                   headers=[x for x in range(5)])
+    print "\n\n"
+
+
     return compare_dict
 
 if __name__ == "__main__":

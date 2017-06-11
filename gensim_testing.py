@@ -11,12 +11,12 @@ def testing_gensim(sentences):
                                    alpha=0.025,
                                    min_alpha=0.0001,
                                    sg=1,
-                                   iter=10000,
+                                   iter=500,
                                    window=1,
                                    cbow_mean=0,
-                                   seed=1,
+                                   seed=12,
                                    min_count=0,
-                                   negative=10,
+                                   negative=1,
                                    hs=1)
 
     # sort by name so the order will be right
@@ -27,6 +27,6 @@ def testing_gensim(sentences):
 
     # print the score of each node for debugging
     answer_list = [(x,model.n_similarity(sorted_list, [x])) for x in sorted_list]
-    # print(*answer_list, sep="\n")
+    print(*answer_list, sep="\n")
 
     return score_list
