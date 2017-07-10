@@ -14,6 +14,7 @@ $(document).ready(function() {
   $("#btn-nextcustome").click(function(){batchTrain($("#num-iterations").val())});
   $("#btn-learning-rate").click(function(){load_config()});
   $("#btn-show-numbers").click(function(){show_numbers()});
+  $("#btn-show-hidden-numbers").click(function(){show_hidden_numbers()});
   $("#btn-click-all").click(function(){clickAllInputNeurons()});
 });
 
@@ -61,9 +62,12 @@ function load_config() {
 
 function show_numbers() {
     var arr1 = nn_svg.selectAll("g.neuron > circle")[0].map(x => x.__data__.value);
-
     window.alert(arr1.slice((arr1.length - config_obj.hidden_size) /2,(arr1.length - config_obj.hidden_size)));
+}
 
+function show_hidden_numbers() {
+    var arr1 = nn_svg.selectAll("g.neuron > circle")[0].map(x => x.__data__.value);
+    window.alert(arr1.slice(arr1.length - config_obj.hidden_size,arr1.length ));
 }
 
 
@@ -412,10 +416,22 @@ function update_neural_net_svg() {
 function clickAllInputNeurons(){
   allCircleElements = d3.selectAll(".input-neuron")
   for (index = 0; index < inputNeurons.length; ++index) {
-  mouseHoverInputNeuron(inputNeurons[index])
-  mouseClickInputNeuron(inputNeurons[index])
+    mouseHoverInputNeuron(inputNeurons[index])
+    mouseClickInputNeuron(inputNeurons[index])
   }
 }
+
+function Get_neuron_Id_by_name(Nname) {
+    for (index = 0; index < inputNeurons.length; ++index)
+        if(inputNeurons[index].name == Nname)
+          return index;
+}
+
+function set_neuron() {
+    for(index = 0; index < inputNeurons.length; index++)
+
+}
+
 function getInputEdgeStrokeWidth(edge) {
   return isNeuronExcited(inputNeurons[edge.source]) ? 5 : 1;
 }

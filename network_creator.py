@@ -12,12 +12,12 @@ from gensim_testing import testing_gensim
 from wevi_parser import wevi_parser
 
 
-use_new_version = 1
+use_new_version = 0
 show_graph = 0
 number_of_walks = 20
-length_of_walks = 10
+length_of_walks = 5
 window_size = 2
-num_of_iteration = 2000
+num_of_iteration = 20
 number_of_graphs = 1
 number_of_nodes = 20
 csv_path = "C:\Users\Dvir\Desktop\NNftw\words2.csv"
@@ -25,14 +25,14 @@ csv_path = "C:\Users\Dvir\Desktop\NNftw\words2.csv"
 
 def graph_maker():
     list1 = [1 if num < 5 else 5 for num in range(10)]
-    # graph = nx.configuration_model(list1, seed=123)
+    graph = nx.configuration_model(list1, seed=123)
     # graph = nx.gnp_random_graph(10, 0.24,seed=15) # awesome graph
     # graph = nx.gnp_random_graph(11, 0.24,seed=1341) # awesome graph2
     # graph = nx.gnp_random_graph(10, 0.24,seed=1341) # spider graph2
     # graph = nx.gnp_random_graph(20, 0.12,seed=1234)
     # graph = nx.gnp_random_graph(50, 0.2,seed=1234)
     # graph = nx.gnp_random_graph(number_of_nodes, 0.24)
-    graph = nx.barabasi_albert_graph(number_of_nodes, 1, seed=465)
+    # graph = nx.barabasi_albert_graph(number_of_nodes, 1, seed=465)
 
     print "done creating network"
     return graph
